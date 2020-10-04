@@ -11,12 +11,15 @@ import entities.Registro;
 public class RegistroDaoImpl implements RegistroDao {
 
 private EntityManager em;
+private static RegistroDaoImpl RegistroDaoImpl;
 	
-	public RegistroDaoImpl(EntityManager em) {
+	private RegistroDaoImpl(EntityManager em) {
 		this.em = em;
+		RegistroDaoImpl = null;
 	}
 	
 	public boolean matricularEstudiante(Estudiante e, Carrera c, int a) {
+			em.getTransaction().begin();
 		 	Carrera c1 = em.find(Carrera.class,c.getId());
 		 	Estudiante e1 = em.find(Estudiante.class,e.getLibreta());
 		 	Registro r1 = new Registro(e,c,a);
@@ -27,8 +30,18 @@ private EntityManager em;
 		 	query.executeUpdate();
 			Registro r = new Registro (e,c,a);
 		    em.persist(r);
+		    this.em.getTransaction().commit();
 		    return true;
 		 	}
 		 return false;
+	}
+
+	@Override
+	public RegistroDaoImpl getInstance(EntityManager em) {//chequear em
+		if (RegistroDaoImpl == null) {
+			return new RegistroDaoImpl(em);
+		} else {
+			return RegistroDaoImpl;
+		}
 	}
 }

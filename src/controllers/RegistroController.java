@@ -1,6 +1,5 @@
 package controllers;
 
-import javax.persistence.EntityManager;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -9,16 +8,18 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import daosImpl.RegistroDaoImpl;
-import entities.Carrera;
-import entities.Estudiante;
+import daos.*;
+import factory.JpaDaoFactory;
 
 @Path("/registro")
 public class RegistroController {
-	private EntityManager em;
+	private JpaDaoFactory JpaDaoFactory;
+	private RegistroDao RegistroDao;
 	
-	public RegistroController(EntityManager em) {
-		this.em = em;
+	@SuppressWarnings("static-access")
+	public RegistroController() {
+		this.JpaDaoFactory.getInstance();
+		this.RegistroDao = JpaDaoFactory.getRegistroDao();
 	}
 	
 	/*@POST

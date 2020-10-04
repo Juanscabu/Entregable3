@@ -10,16 +10,15 @@ import entities.Estudiante;
 
 public class EstudianteDaoImpl implements EstudianteDao {
 	private EntityManager em;
+	private static EstudianteDaoImpl EstudianteDaoImpl;
 
-	public EstudianteDaoImpl(EntityManager em) {
+	private EstudianteDaoImpl(EntityManager em) {
 		this.em = em;
-	}
-
-	public EstudianteDaoImpl() {
-		super();
+		EstudianteDaoImpl = null;
 	}
 
 	public Estudiante addEstudiante (Estudiante e) {
+		em.getTransaction().begin();
 		TypedQuery<Estudiante> query = em.createQuery("SELECT e FROM Estudiante e WHERE libreta = ?1", Estudiante.class);
 		query.setParameter(1,e.getLibreta());
 		List<Estudiante> resultados = query.getResultList();
@@ -29,6 +28,7 @@ public class EstudianteDaoImpl implements EstudianteDao {
 			return existeEstudiante = (Estudiante) resultados.get(0);
 		}
 		em.persist(e);
+		this.em.getTransaction().commit();
 		return e;		
 	}
 
@@ -59,5 +59,14 @@ public class EstudianteDaoImpl implements EstudianteDao {
 		query.setParameter(2,c);
 		List<Estudiante> estudiantes = query.getResultList();
 		return estudiantes;
+	}
+
+	@Override
+	public EstudianteDaoImpl getInstance(EntityManager em) {//chequear em
+		if (EstudianteDaoImpl == null) {
+			return new EstudianteDaoImpl(em);
+		} else {
+			return EstudianteDaoImpl;
+		}
 	}
 }

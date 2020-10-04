@@ -2,9 +2,6 @@ package controllers;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -14,27 +11,34 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import daosImpl.EstudianteDaoImpl;
+import daos.*;
 import entities.Carrera;
 import entities.Estudiante;
+import factory.JpaDaoFactory;
 
 @Path("/estudiante")
 public class EstudianteController {
-	private EntityManager em;
+	private JpaDaoFactory JpaDaoFactory;
+	private EstudianteDao EstudianteDao;
 
-	public EstudianteController(/*EntityManager em*/) {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("Example");
-		this.em = emf.createEntityManager();
-		//this.em = em;
+	@SuppressWarnings("static-access")
+	public EstudianteController() {
+		//EntityManagerFactory emf = Persistence.createEntityManagerFactory("Example");
+		//this.em = emf.createEntityManager();
 		//recibir el dao
+		this.JpaDaoFactory.getInstance();
+		this.EstudianteDao = JpaDaoFactory.getEstudianteDao();
 	}
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response addEstudiante(Estudiante e) {
-		EstudianteDaoImpl e1 = new EstudianteDaoImpl(em);
-		Estudiante e2 = e1.addEstudiante(e);
+		//em.getTransaction().begin();
+		//EstudianteDaoImpl e1 = new EstudianteDaoImpl(em);
+		Estudiante e2 = this.EstudianteDao.addEstudiante(e);
+		//this.em.getTransaction().commit();
+		//em.close();
 		return Response.status(201).entity(e2).build();
 	}
 	
@@ -42,8 +46,8 @@ public class EstudianteController {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Estudiante getEstudiante( @PathParam("id") int libreta) {
-		EstudianteDaoImpl e = new EstudianteDaoImpl(em);
-		Estudiante e1 = e.getEstudiante(libreta);
+		//EstudianteDaoImpl e = new EstudianteDaoImpl(em);
+		Estudiante e1 = this.EstudianteDao.getEstudiante(libreta);
 		return e1;
 	}
 	
@@ -51,8 +55,8 @@ public class EstudianteController {
 	@Path("/estudiantes")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Estudiante> getEstudiantes() {
-		EstudianteDaoImpl e = new EstudianteDaoImpl(em);
-		List<Estudiante> e1 = e.getEstudiantes();
+		//EstudianteDaoImpl e = new EstudianteDaoImpl(em);
+		List<Estudiante> e1 = this.EstudianteDao.getEstudiantes();
 		return e1;
 	}
 	
@@ -60,8 +64,8 @@ public class EstudianteController {
 	@Path("/estudiantesGenero/{genero}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Estudiante> getEstudianteGenero(@PathParam("genero") String genero) {
-		EstudianteDaoImpl e = new EstudianteDaoImpl(em);
-		List<Estudiante> e1 = e.getEstudiantesGenero(genero);
+		//EstudianteDaoImpl e = new EstudianteDaoImpl(em);
+		List<Estudiante> e1 = this.EstudianteDao.getEstudiantesGenero(genero);
 		return e1;
 	}
 	
@@ -69,8 +73,8 @@ public class EstudianteController {
 	@Path("/estudiantesCarrera/{carrera}/{ciudad}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Estudiante> getEstudiantesCarrera(@PathParam("carrera") Carrera c, @PathParam("ciudad") String ciudad){
-		EstudianteDaoImpl e = new EstudianteDaoImpl(em);
-		List<Estudiante> e1 = e.getEstudiantesCarrera(c, ciudad);
+		//EstudianteDaoImpl e = new EstudianteDaoImpl(em);
+		List<Estudiante> e1 = this.EstudianteDao.getEstudiantesCarrera(c, ciudad);
 		return e1;
 	}
 }
