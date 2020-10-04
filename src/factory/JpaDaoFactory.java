@@ -5,59 +5,60 @@ import javax.persistence.EntityManager;
 import daos.CarreraDao;
 import daos.EstudianteDao;
 import daos.RegistroDao;
+import daosImpl.*;
 
 public class JpaDaoFactory implements DAOFactory{
 	
-	private static JpaDaoFactory JpaDaoFactory;
-	private static CarreraDao CarreraDao;
-	private static EstudianteDao EstudianteDao;
-	private static RegistroDao RegistroDao;
+	private static JpaDaoFactory jpaDaoFactory;
+	private static CarreraDao carreraDao;
+	private static EstudianteDao estudianteDao;
+	private static RegistroDao registroDao;
 	private EntityManager em;
 	
-	public JpaDaoFactory() {
-		JpaDaoFactory = null;
-		CarreraDao = null;
-		EstudianteDao = null;
-		RegistroDao = null;
+	private JpaDaoFactory() {
+		jpaDaoFactory = null;
+		carreraDao = null;
+		estudianteDao = null;
+		registroDao = null;
 		this.em = EMF.createEntityManager();
 	}
 	
 	public static JpaDaoFactory getInstance() {
-		if (JpaDaoFactory == null) {
-			JpaDaoFactory = new JpaDaoFactory();
-			return JpaDaoFactory;
+		if (jpaDaoFactory == null) {
+			jpaDaoFactory = new JpaDaoFactory();
+			return jpaDaoFactory;
 		} else {
-			return JpaDaoFactory;
+			return jpaDaoFactory;
 		}
 	}
 
 	@Override
 	public CarreraDao getCarreraDao() {
-		if (CarreraDao == null) {
-			CarreraDao = this.CarreraDao.getInstance(this.em);
-			return CarreraDao;
+		if (carreraDao == null) {
+			carreraDao = CarreraDaoImpl.getInstance(this.em);
+			return carreraDao;
 		} else {
-			return CarreraDao;
+			return carreraDao;
 		}
 	}
 
 	@Override
 	public EstudianteDao getEstudianteDao() {
-		if (EstudianteDao == null) {
-			EstudianteDao = this.EstudianteDao.getInstance(this.em);
-			return EstudianteDao;
+		if (estudianteDao == null) {
+			estudianteDao = EstudianteDaoImpl.getInstance(this.em);
+			return estudianteDao;
 		} else {
-			return EstudianteDao;
+			return estudianteDao;
 		}
 	}
 
 	@Override
 	public RegistroDao getRegistroDao() {
-		if (RegistroDao == null) {
-			RegistroDao = this.getRegistroDao().getInstance(this.em);
-			return RegistroDao;
+		if (registroDao == null) {
+			registroDao = RegistroDaoImpl.getInstance(this.em);
+			return registroDao;
 		} else {
-			return RegistroDao;
+			return registroDao;
 		}
 	}
 	

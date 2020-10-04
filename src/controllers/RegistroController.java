@@ -13,13 +13,13 @@ import factory.JpaDaoFactory;
 
 @Path("/registro")
 public class RegistroController {
-	private JpaDaoFactory JpaDaoFactory;
-	private RegistroDao RegistroDao;
+	private JpaDaoFactory jpaDaoFactory;
+	private RegistroDao registroDao;
 	
 	@SuppressWarnings("static-access")
 	public RegistroController() {
-		this.JpaDaoFactory.getInstance();
-		this.RegistroDao = JpaDaoFactory.getRegistroDao();
+		this.jpaDaoFactory = JpaDaoFactory.getInstance();
+		this.registroDao = jpaDaoFactory.getRegistroDao();
 	}
 	
 	/*@POST

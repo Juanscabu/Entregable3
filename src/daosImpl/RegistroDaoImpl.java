@@ -11,11 +11,11 @@ import entities.Registro;
 public class RegistroDaoImpl implements RegistroDao {
 
 private EntityManager em;
-private static RegistroDaoImpl RegistroDaoImpl;
+private static RegistroDaoImpl registroDaoImpl;
 	
 	private RegistroDaoImpl(EntityManager em) {
 		this.em = em;
-		RegistroDaoImpl = null;
+		registroDaoImpl = null;
 	}
 	
 	public boolean matricularEstudiante(Estudiante e, Carrera c, int a) {
@@ -36,12 +36,10 @@ private static RegistroDaoImpl RegistroDaoImpl;
 		 return false;
 	}
 
-	@Override
-	public RegistroDaoImpl getInstance(EntityManager em) {//chequear em
-		if (RegistroDaoImpl == null) {
-			return new RegistroDaoImpl(em);
-		} else {
-			return RegistroDaoImpl;
+	public static RegistroDaoImpl getInstance(EntityManager em) {//chequear em
+		if (registroDaoImpl == null) {
+			registroDaoImpl = new RegistroDaoImpl(em);
 		}
+		return registroDaoImpl;
 	}
 }

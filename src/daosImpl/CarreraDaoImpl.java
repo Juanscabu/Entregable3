@@ -19,6 +19,14 @@ public class CarreraDaoImpl implements CarreraDao {
 		CarreraDaoImpl = null;
 	}
 	
+	public static CarreraDaoImpl getInstance(EntityManager em) {//chequear em
+		if (CarreraDaoImpl == null) {
+			CarreraDaoImpl = new CarreraDaoImpl(em); 
+			//return new CarreraDaoImpl(em);	
+		}
+		return CarreraDaoImpl;
+	}
+	
 	public Carrera addCarrera (Carrera c) {
 		em.getTransaction().begin();
 		TypedQuery<Carrera> query = em.createQuery("SELECT c FROM Carrera c WHERE nombre = ?1", Carrera.class);
@@ -53,12 +61,4 @@ public class CarreraDaoImpl implements CarreraDao {
 		return carreras;
 	}
 
-	@Override
-	public CarreraDaoImpl getInstance(EntityManager em) {//chequear em
-		if (CarreraDaoImpl == null) {
-			return new CarreraDaoImpl(em);
-		} else {
-			return CarreraDaoImpl;
-		}
-	}
 }

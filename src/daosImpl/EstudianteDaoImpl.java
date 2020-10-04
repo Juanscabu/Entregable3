@@ -10,11 +10,11 @@ import entities.Estudiante;
 
 public class EstudianteDaoImpl implements EstudianteDao {
 	private EntityManager em;
-	private static EstudianteDaoImpl EstudianteDaoImpl;
+	private static EstudianteDaoImpl estudianteDaoImpl;
 
 	private EstudianteDaoImpl(EntityManager em) {
 		this.em = em;
-		EstudianteDaoImpl = null;
+		estudianteDaoImpl = null;
 	}
 
 	public Estudiante addEstudiante (Estudiante e) {
@@ -61,12 +61,10 @@ public class EstudianteDaoImpl implements EstudianteDao {
 		return estudiantes;
 	}
 
-	@Override
-	public EstudianteDaoImpl getInstance(EntityManager em) {//chequear em
-		if (EstudianteDaoImpl == null) {
-			return new EstudianteDaoImpl(em);
-		} else {
-			return EstudianteDaoImpl;
+	public static EstudianteDaoImpl getInstance(EntityManager em) {//chequear em
+		if (estudianteDaoImpl == null) {
+			estudianteDaoImpl = new EstudianteDaoImpl(em);
 		}
-	}
+			return estudianteDaoImpl;
+		}
 }

@@ -18,14 +18,14 @@ import factory.*;
 @Path("/carrera")
 public class CarreraController {
 	//private EntityManager em;
-	private JpaDaoFactory JpaDaoFactory;
+	private JpaDaoFactory jpaDaoFactory;
 	private CarreraDao carreraDao;
 
 	@SuppressWarnings("static-access")
 	public CarreraController(/*EntityManager em*/) {
 		//this.em = EMF.createEntityManager();
-		this.JpaDaoFactory.getInstance();
-		this.carreraDao = JpaDaoFactory.getCarreraDao();
+		this.jpaDaoFactory = JpaDaoFactory.getInstance();
+		this.carreraDao = jpaDaoFactory.getCarreraDao();
 	}
 	
 	@POST
