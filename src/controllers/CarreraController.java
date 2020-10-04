@@ -17,13 +17,11 @@ import factory.*;
 
 @Path("/carrera")
 public class CarreraController {
-	//private EntityManager em;
 	private JpaDaoFactory jpaDaoFactory;
 	private CarreraDao carreraDao;
 
 	@SuppressWarnings("static-access")
-	public CarreraController(/*EntityManager em*/) {
-		//this.em = EMF.createEntityManager();
+	public CarreraController() {
 		this.jpaDaoFactory = JpaDaoFactory.getInstance();
 		this.carreraDao = jpaDaoFactory.getCarreraDao();
 	}
@@ -32,8 +30,6 @@ public class CarreraController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response addCarrera (Carrera c) {
-		//CarreraDaoImpl c1 = new CarreraDaoImpl(em);
-		//Carrera c2 = c1.addCarrera(c);
 		Carrera c2 = this.carreraDao.addCarrera(c);
 		return Response.status(201).entity(c2).build();
 	}
@@ -42,26 +38,23 @@ public class CarreraController {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Carrera getCarrera (@PathParam("id") int id) {
-		//CarreraDaoImpl c1 = new CarreraDaoImpl(em);
-		Carrera c2 = this.carreraDao.getCarrera(id);
-		return c2;
+		Carrera carrera = this.carreraDao.getCarrera(id);
+		return carrera;
 	}
 	
 	@GET
-	@Path("/carreraInscriptos")
+	@Path("/Inscriptos")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Carrera> getCarrerasCantInscriptos() {
-		//CarreraDaoImpl c1 = new CarreraDaoImpl(em);
-		List<Carrera> c2 = this.carreraDao.getCarrerasCantInscriptos();
-		return c2;
+		List<Carrera> carreras = this.carreraDao.getCarrerasCantInscriptos();
+		return carreras;
 	}
 	
 	@GET
-	@Path("/carreraReporte")
+	@Path("/Reporte")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Carrera> getReporteCarreras() {
-		//CarreraDaoImpl c1 = new CarreraDaoImpl(em);
-		List<Carrera> c2 = this.carreraDao.getReporteCarreras();
-		return c2;
+		List<Carrera> carreras = this.carreraDao.getReporteCarreras();
+		return carreras;
 	}
 }

@@ -18,8 +18,9 @@ private static RegistroDaoImpl registroDaoImpl;
 		registroDaoImpl = null;
 	}
 	
-	public boolean matricularEstudiante(Estudiante e, Carrera c, int a) {
+	public Registro matricularEstudiante(Estudiante e, Carrera c, int a) {
 			em.getTransaction().begin();
+			Registro r = new Registro();
 		 	Carrera c1 = em.find(Carrera.class,c.getId());
 		 	Estudiante e1 = em.find(Estudiante.class,e.getLibreta());
 		 	Registro r1 = new Registro(e,c,a);
@@ -28,15 +29,15 @@ private static RegistroDaoImpl registroDaoImpl;
 		 	Query query = em.createQuery("UPDATE Carrera c SET c.cantInscriptos = c.cantInscriptos+1 WHERE id=?1");
 		 	query.setParameter(1,c.getId());
 		 	query.executeUpdate();
-			Registro r = new Registro (e,c,a);
+			r = new Registro (e,c,a);
 		    em.persist(r);
 		    this.em.getTransaction().commit();
-		    return true;
+		    return r;
 		 	}
-		 return false;
+		 return r;
 	}
 
-	public static RegistroDaoImpl getInstance(EntityManager em) {//chequear em
+	public static RegistroDaoImpl getInstance(EntityManager em) {
 		if (registroDaoImpl == null) {
 			registroDaoImpl = new RegistroDaoImpl(em);
 		}

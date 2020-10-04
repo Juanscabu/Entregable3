@@ -11,18 +11,15 @@ import entities.Carrera;
 public class CarreraDaoImpl implements CarreraDao {
 	private EntityManager em;
 	private static CarreraDaoImpl CarreraDaoImpl;
-	//private EntityManagerFactory emf;
 	
 	private CarreraDaoImpl(EntityManager em) {
-		//this.emf = Persistence.createEntityManagerFactory("Entregable3");
 		this.em = em;
 		CarreraDaoImpl = null;
 	}
 	
-	public static CarreraDaoImpl getInstance(EntityManager em) {//chequear em
+	public static CarreraDaoImpl getInstance(EntityManager em) {
 		if (CarreraDaoImpl == null) {
 			CarreraDaoImpl = new CarreraDaoImpl(em); 
-			//return new CarreraDaoImpl(em);	
 		}
 		return CarreraDaoImpl;
 	}

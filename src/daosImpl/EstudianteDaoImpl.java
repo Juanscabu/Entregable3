@@ -40,7 +40,6 @@ public class EstudianteDaoImpl implements EstudianteDao {
 	public List<Estudiante> getEstudiantes() {	
 		TypedQuery<Estudiante> query = em.createQuery("SELECT e FROM Estudiante e ORDER BY apellido ASC", Estudiante.class);
 		List<Estudiante> estudiantes = query.getResultList();
-		estudiantes.forEach(p -> System.out.println(p));
 		return estudiantes;
 	}
 
@@ -49,7 +48,6 @@ public class EstudianteDaoImpl implements EstudianteDao {
 		TypedQuery<Estudiante> query = em.createQuery("SELECT e FROM Estudiante e WHERE genero = ?1", Estudiante.class);
 		query.setParameter(1, genero);
 		List<Estudiante> estudiantes = query.getResultList();
-		estudiantes.forEach(p -> System.out.println(p));
 		return estudiantes;
 	}
 
@@ -61,7 +59,7 @@ public class EstudianteDaoImpl implements EstudianteDao {
 		return estudiantes;
 	}
 
-	public static EstudianteDaoImpl getInstance(EntityManager em) {//chequear em
+	public static EstudianteDaoImpl getInstance(EntityManager em) {
 		if (estudianteDaoImpl == null) {
 			estudianteDaoImpl = new EstudianteDaoImpl(em);
 		}
