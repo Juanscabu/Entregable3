@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Carrera {
 	@Id
@@ -22,6 +24,7 @@ public class Carrera {
 	@Column
 	private int cantInscriptos;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="carrera",fetch=FetchType.EAGER)
 	private List<Registro> estudiantes;
 

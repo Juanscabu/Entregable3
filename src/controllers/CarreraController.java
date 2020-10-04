@@ -3,6 +3,7 @@ package controllers;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -23,9 +24,9 @@ public class CarreraController {
 	}
 	
 	@POST
-	@Path("/{carrera}")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addCarrera (@PathParam("carrera") Carrera c) {
+	public Response addCarrera (Carrera c) {
 		CarreraDaoImpl c1 = new CarreraDaoImpl(em);
 		Carrera c2 = c1.addCarrera(c);
 		return Response.status(201).entity(c2).build();

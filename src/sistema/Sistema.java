@@ -15,7 +15,7 @@ public class Sistema {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		
-		EstudianteController e1 = new EstudianteController(em);
+		EstudianteController e1 = new EstudianteController(/*em*/);
 		CarreraController c1 = new CarreraController(em);
 		RegistroController r1 = new RegistroController(em);
 		

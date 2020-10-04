@@ -1,6 +1,7 @@
 package controllers;
 
 import javax.persistence.EntityManager;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -21,9 +22,10 @@ public class RegistroController {
 	}
 	
 	/*@POST
-	@Path("/{estudiante}/{carrera}/{anio}")
+	@Path("/{anio}")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response matricularEstudiante(@PathParam("estudiante") Estudiante e,@PathParam("carrera") Carrera c,@PathParam("anio") int a) {
+	public Response matricularEstudiante(Estudiante e, Carrera c, @PathParam("anio") int a) {
 	RegistroDaoImpl r1 = new RegistroDaoImpl(em);
 	boolean r2 = r1.matricularEstudiante(e, c, a);
 	return Response.status(201).entity(r2).build();

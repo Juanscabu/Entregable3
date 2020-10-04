@@ -3,6 +3,9 @@ package controllers;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -19,15 +22,17 @@ import entities.Estudiante;
 public class EstudianteController {
 	private EntityManager em;
 
-	public EstudianteController(EntityManager em) {
-		this.em = em;
+	public EstudianteController(/*EntityManager em*/) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("Example");
+		this.em = emf.createEntityManager();
+		//this.em = em;
 		//recibir el dao
 	}
 	
 	@POST
-	@Path("/{estudiante}")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addEstudiante(@PathParam("estudiante") Estudiante e) {
+	public Response addEstudiante(Estudiante e) {
 		EstudianteDaoImpl e1 = new EstudianteDaoImpl(em);
 		Estudiante e2 = e1.addEstudiante(e);
 		return Response.status(201).entity(e2).build();
