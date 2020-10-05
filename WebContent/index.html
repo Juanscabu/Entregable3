@@ -106,6 +106,16 @@
                 console.log(data);
             }
 
+            function cargarTablaCarreras(data) {
+                let html = "<tr><th>Nombre</th></tr>";
+                for (let i = 0; i < data.information.length; i++) {
+                    html += "<tr> <td>" + data.information[i].thing.nombre + "</td>";
+
+                }
+                $(".js-tabla").html(html);
+                console.log(data);
+            }
+
             $("#estudiantes").on("click", function(event) {
                 event.preventDefault();
                 $.ajax({
@@ -114,6 +124,21 @@
                     "contentType": "application/json; charset=utf-8",
                     "dataType": "JSON",
                     "success": cargarTablaEstudiantes,
+                    "error": function(xmlhr, r, error) {
+                        console.log(error);
+                    }
+                })
+                $(".js-tabla").html("Cargando tabla...");
+            })
+
+            $("#carreras").on("click", function(event) {
+                event.preventDefault();
+                $.ajax({
+                    "url": "http://localhost:8080/Entregable3/rest/carrera/Reporte",
+                    "method": "GET",
+                    "contentType": "application/json; charset=utf-8",
+                    "dataType": "JSON",
+                    "success": cargarTablaCarreras,
                     "error": function(xmlhr, r, error) {
                         console.log(error);
                     }
@@ -170,7 +195,6 @@
 
     <button type="submit" id="estudiantes">Estudiantes</button>
     <button type="submit" id="carreras">Carreras</button>
-    <button type="submit" id="registro">Registro</button>
     <table class="js-tabla">
 
     </table>
