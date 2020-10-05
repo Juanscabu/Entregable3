@@ -19,7 +19,6 @@ private static RegistroDaoImpl registroDaoImpl;
 	}
 	
 	public Registro matricularEstudiante(Estudiante e, Carrera c, int a) {
-			em.getTransaction().begin();
 			Registro r = new Registro();
 		 	Carrera c1 = em.find(Carrera.class,c.getId());
 		 	Estudiante e1 = em.find(Estudiante.class,e.getLibreta());
@@ -31,7 +30,8 @@ private static RegistroDaoImpl registroDaoImpl;
 		 	query.executeUpdate();
 			r = new Registro (e,c,a);
 		    em.persist(r);
-		    this.em.getTransaction().commit();
+		    em.getTransaction().commit();
+			em.clear();
 		    return r;
 		 	}
 		 return r;

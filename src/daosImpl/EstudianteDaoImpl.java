@@ -18,6 +18,7 @@ public class EstudianteDaoImpl implements EstudianteDao {
 	}
 
 	public Estudiante addEstudiante (Estudiante e) {
+		if (!em.getTransaction().isActive())
 		em.getTransaction().begin();
 		TypedQuery<Estudiante> query = em.createQuery("SELECT e FROM Estudiante e WHERE libreta = ?1", Estudiante.class);
 		query.setParameter(1,e.getLibreta());
@@ -27,8 +28,9 @@ public class EstudianteDaoImpl implements EstudianteDao {
 		if (!resultados.isEmpty()) {
 			return existeEstudiante = (Estudiante) resultados.get(0);
 		}
-		em.persist(e);
-		this.em.getTransaction().commit();
+		 em.persist(e);
+		 em.getTransaction().commit();
+		 em.clear();
 		return e;		
 	}
 

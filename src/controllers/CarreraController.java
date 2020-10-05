@@ -19,7 +19,7 @@ import factory.*;
 public class CarreraController {
 	private JpaDaoFactory jpaDaoFactory;
 	private CarreraDao carreraDao;
-
+ 
 	@SuppressWarnings("static-access")
 	public CarreraController() {
 		this.jpaDaoFactory = JpaDaoFactory.getInstance();

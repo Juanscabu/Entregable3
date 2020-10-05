@@ -16,13 +16,10 @@ public class EMF implements ServletContextListener {
 	
 	@Override
 	public void contextDestroyed(ServletContextEvent arg) {
-		emf.close();
+		emf.close(); 
 	}
 	
 	public static EntityManager createEntityManager() {
-		/*if (emf == null) {
-			throw new IllegalStateException("Context is not initialized yet.");
-		}*/
 		emf = Persistence.createEntityManagerFactory("Entregable3");
 		return emf.createEntityManager();
 	}

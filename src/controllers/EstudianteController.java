@@ -26,7 +26,7 @@ public class EstudianteController {
 		this.jpaDaoFactory = JpaDaoFactory.getInstance();
 		this.estudianteDao = jpaDaoFactory.getEstudianteDao();
 	}
-	
+	 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

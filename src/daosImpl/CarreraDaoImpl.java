@@ -23,9 +23,10 @@ public class CarreraDaoImpl implements CarreraDao {
 		}
 		return CarreraDaoImpl;
 	}
-	
+	 
 	public Carrera addCarrera (Carrera c) {
-		em.getTransaction().begin();
+		if (!em.getTransaction().isActive())
+			em.getTransaction().begin();
 		TypedQuery<Carrera> query = em.createQuery("SELECT c FROM Carrera c WHERE nombre = ?1", Carrera.class);
 			query.setParameter(1,c.getNombre());
 			List<Carrera> resultados = query.getResultList();
@@ -34,8 +35,9 @@ public class CarreraDaoImpl implements CarreraDao {
 			if (!resultados.isEmpty()) {
 				return existeCarrera = (Carrera) resultados.get(0);
 			}
-		    em.persist(c);
-		    this.em.getTransaction().commit();
+			em.persist(c);
+			em.getTransaction().commit();
+			em.clear();
 			return c;		
 	}
 	

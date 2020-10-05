@@ -14,7 +14,7 @@ public class JpaDaoFactory implements DAOFactory{
 	private static EstudianteDao estudianteDao;
 	private static RegistroDao registroDao;
 	private EntityManager em;
-	
+	 
 	private JpaDaoFactory() {
 		jpaDaoFactory = null;
 		carreraDao = null;

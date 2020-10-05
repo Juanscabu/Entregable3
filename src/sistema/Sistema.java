@@ -1,45 +1,43 @@
 package sistema;
 
-import javax.persistence.EntityManager;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
+
+import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
-import daosImpl.CarreraDaoImpl;
+import daos.CarreraDao;
+import daos.EstudianteDao;
 import entities.Carrera;
 import entities.Estudiante;
+import factory.JpaDaoFactory;
+
 
 public class Sistema {
 
-	public static void main(String[] args) {
-		//EntityManagerFactory emf = EMF.contextInitialized(null);
-		//EntityManager em = EMF.createEntityManager();
-		//EntityManager em = emf.createEntityManager();
-		//em.getTransaction().begin();
+	public static void main(String[] args) throws FileNotFoundException, IOException {
+		JpaDaoFactory jpaDaoFactory = JpaDaoFactory.getInstance();
+		EstudianteDao estudianteDao = jpaDaoFactory.getEstudianteDao();
+		CarreraDao carreraDao = jpaDaoFactory.getCarreraDao();
+		CSVParser estudiantes = CSVFormat.DEFAULT.withHeader().parse(new FileReader("./csv/estudiantes.csv"));
+		CSVParser carreras = CSVFormat.DEFAULT.withHeader().parse(new FileReader("./csv/carreras.csv"));
 		
-		//EstudianteController e1 = new EstudianteController();
-		//CarreraController c1 = new CarreraController(em);
-		//RegistroController r1 = new RegistroController(em);
-		
-		//em.getTransaction().commit();
-		
-		//em.close();
-		//emf.close();
+		cargarEstudiantes(estudiantes,estudianteDao);
+		cargarCarreras(carreras,carreraDao);
 	}
 
-	private static void cargarCarreras(CSVParser carreras) {
-		//el em de carrera
-		//el get instance de carreraDao
+	private static void cargarCarreras(CSVParser carreras,CarreraDao carreraDao) {
 		for(CSVRecord row: carreras) {
 			String nombre = row.get("nombre");
 			Carrera carrera = new Carrera(nombre);
-			//c.addCarrera(carrera); DESCOMENTAR ESTO
+			carreraDao.addCarrera(carrera);
 			}
 	}
 
-	private static void cargarEstudiantes(CSVParser estudiantes) {
-		//el em de estudiante
-		//el get instance de estudianteDao
+	private static void cargarEstudiantes(CSVParser estudiantes,EstudianteDao estudianteDao) {
 		for(CSVRecord row: estudiantes) {
 			String nombre = row.get("nombre");
 			String apellido = row.get("apellido");
@@ -49,7 +47,7 @@ public class Sistema {
 			String ciudad = row.get("ciudad");
 			int libreta = Integer.parseInt( row.get("libreta"));
 			Estudiante estudiante = new Estudiante(nombre,apellido,edad,genero,documento,ciudad,libreta);
-			//e.addEstudiante(estudiante); DESCOMENTAR ESTO
+			estudianteDao.addEstudiante(estudiante);
 			}
 	}
 }
